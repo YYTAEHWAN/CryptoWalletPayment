@@ -28,7 +28,7 @@ export default () => ({
       favicon: './assets/favicon.png',
     },
     extra: {
-        projectId: 'cdb3f2394c9b363fa73094e7eb02db42',
+        projectId: 'YOUR_PROJECT_ID YOUR_PROJECT_ID YOUR_PROJECT_ID YOUR_PROJECT_ID YOUR_PROJECT_ID',
     },
     updates: {
       url: 'https://u.expo.dev/f477ced2-c06e-470c-adcc-2c997a90cc4e',
