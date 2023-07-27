@@ -83,7 +83,7 @@ module.exports = {
     
             if (doc.exists) {
                 const resultObject = doc.data();
-                console.log('데이터 읽기 성공');
+                // console.log('데이터 읽기 성공');
                 return resultObject; // { paymentReceiptIdx, payment_status, payment_start_time, payment_end_time }
             } else {
                 console.log('해당 데이터가 없습니다.');

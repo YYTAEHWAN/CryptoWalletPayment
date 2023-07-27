@@ -14,6 +14,10 @@ nangnangDB.use(express.json());
   const LoginReturnDataRouter = require('./components/BroFunctions/LoginReturnData/LoginReturnDataRouter');
   nangnangDB.use(LoginReturnDataRouter);
 
+  // GetPaymentReceiptData 폴더
+  const GetPaymentReceiptDataRouter = require('./components/BroFunctions/GetPaymentReceiptData/GetPaymentReceiptDataRouter');
+  nangnangDB.use(GetPaymentReceiptDataRouter);
+
   // DongyuBro 폴더
     // PaymentProcess
     const PaymentProcessRouter = require('./components/BroFunctions/DongyuBro/PaymentProcess/PaymentProcessRouter');
@@ -72,6 +76,9 @@ nangnangDB.use(express.json());
   // ConsumerData 폴더
   const ConsumerRouter = require('./components/User/ConsumerData/ConsumerRouter');
   nangnangDB.use(ConsumerRouter);
+    // ChosenWallet 폴더
+    const ConsumersChosenWalletRouter = require('./components/User/ConsumerData/ChosenWallet/ConsumersChosenWalletRouter');
+    nangnangDB.use(ConsumersChosenWalletRouter);
   
   // SellerData 폴더
   const SellerRouter = require('./components/User/SellerData/SellerRouter');
@@ -93,6 +100,9 @@ nangnangDB.use(express.json());
   // UserData 폴더
   const UserDataRouter = require('./components/User/UserData/UserDataRouter');
   nangnangDB.use(UserDataRouter);
+    // IdxAssociatedUser 폴더
+    const IdxAssociatedUserRouter = require('./components/User/UserData/IdxAssociatedUser/IdxAssociatedUserRouter');
+    nangnangDB.use(IdxAssociatedUserRouter);
 // UserData 폴더 끝 ---------------------------------------------------------------------------------------------------------------------------------
 
 
