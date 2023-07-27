@@ -30,7 +30,7 @@ module.exports = {
         .get();
 
       if (doc.exists) {
-        console.log('이미 데이터가 존재합니다.');
+        console.log('participantsDB create 이미 데이터가 존재합니다.');
         return -1; // 실패
       } else {
         await db

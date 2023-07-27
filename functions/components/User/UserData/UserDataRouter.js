@@ -20,7 +20,7 @@ UserDataRouter.post("/user", async (req,res) => {
         
         const result = await userDataDB.createUserData(req.body);
         res.status(200).json({
-          message: "회원가입 결과 성공시 1, 실패시 -1",
+          message: "회원가입 결과 성공시 1, 실패 or 이미 존재하는 아이디 일 경우 -1 ",
           data: result,
         });
     } catch (error) {
