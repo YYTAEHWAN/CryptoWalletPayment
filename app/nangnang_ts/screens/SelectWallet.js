@@ -32,15 +32,16 @@ const SelectWallet = ({navigation}) => {
     const{ open, close, provider, isConnected, } = useWalletConnectModal()
     const projectId = '3e3f9e4ec7896dafb000678ff1af2442'
     const providerMetadata = {
-    name: 'NangNang',
-    description: 'NangNang',
-    url: 'nangnang',
-    icons: ['https://your-project-logo.com/'],
-    redirect: {
-        native: 'YOUR_APP_SCHEME://',
-        universal: 'YOUR_APP_UNIVERSAL_LINK.com'
+        name: 'NangNang',
+        description: 'NangNang',
+        url: 'nangnang',
+        icons: ['https://your-project-logo.com/'],
+        redirect: {
+            native: 'YOUR_APP_SCHEME://',
+            universal: 'YOUR_APP_UNIVERSAL_LINK.com'
+        }
     }
-    }
+    
     const ConnectData = () => {
         const expiry = provider?.session?.expiry
         console.log("expiry = ", expiry);
@@ -58,9 +59,6 @@ const SelectWallet = ({navigation}) => {
         console.log("url = ", url);
         const name = provider?.session?.peer.metadata.name
         console.log("name = ", name);
-      
-      
-      
       }
       
     const killSession =  () => {
@@ -191,7 +189,7 @@ const SelectWallet = ({navigation}) => {
                         }catch(e){
                             console.log("결제 데이터 저장 오류")
                             console.log("결제 에러 ",e)
-                        }
+                        }   
                     }
                     console.log("결제 해쉬값 확인 완료")
                 }catch(e){
