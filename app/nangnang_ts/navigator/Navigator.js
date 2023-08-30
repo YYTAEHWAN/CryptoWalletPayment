@@ -12,6 +12,8 @@ import PayResult from '../screens/PayResult';
 import { AuthContext } from '../context/AuthContext';
 import MyPaymentlist from '../screens/MyPaymentlist';
 import Paymentdetail from '../screens/Paymentdetail';
+import { BlockchainActions } from '../utils/BlockchainAction'
+
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const MainStack = createStackNavigator();
@@ -31,6 +33,7 @@ export function Home (){
       <MainStack.Screen name="Main" component={Main} />
       <MainStack.Screen name="SelectWallet" component={SelectWallet}/>
       <MainStack.Screen name="Payinfo" component={Payinfo}/>
+      <MainStack.Screen name="BlockchainActions" component={BlockchainActions}/>
       <MainStack.Screen name="QRCodeScanner" component={QRCodeScanner}/>
       <MainStack.Screen name="MyWallets" component={MyWallets}/>
       <MainStack.Screen name="PayResult" component={PayResult}/>

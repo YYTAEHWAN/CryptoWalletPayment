@@ -15,6 +15,7 @@ import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import WalletButton from '../components/Buttons/WalletButton';
 
+
 // https://github.com/ethers-io/ethers.js/issues/3996 이거 보고 추가함
 import 'node-libs-react-native/globals';
 
@@ -26,6 +27,9 @@ import "@ethersproject/shims"
 
 // 에테르 라이브러리 가져오기
 import { ethers } from "ethers";
+
+import { useMemo } from 'react';
+import { sanitizeHex, numberToHex } from '@walletconnect/encoding';
 
 
 const goerliapi = "CDFTCSDIJ4HNYU41CJYRP2I3SSCNJ7PGYD"
@@ -44,6 +48,16 @@ const formatData = (data, numColumns) =>{
 const SelectWallet = ({navigation}) => {
 
     const{ open, close, provider, isConnected, } = useWalletConnectModal()
+    const [web3Provider, setWeb3Provider] = useState(null);
+
+    useEffect(() => {
+        if (provider) {
+            const providerInstance = new ethers.providers.Web3Provider(provider);
+            setWeb3Provider(providerInstance);
+        }
+    }, [provider]);
+
+    
     const projectId = '3e3f9e4ec7896dafb000678ff1af2442'
     const providerMetadata = {
         name: 'NangNang',   
@@ -115,6 +129,7 @@ const SelectWallet = ({navigation}) => {
             setErrorNum(0);
         }
     },[errorNum])
+
     const CW = async ()=>{
         console.log("CW 함수 실행")
         if(payinfo.selectedWalletID === "" && payinfo.mywalletaddress === ""){
@@ -228,40 +243,7 @@ const SelectWallet = ({navigation}) => {
         setModalIsVisible(true)
         setWalletAddress(wallet_address)
     }   
-    const params = {
-        namespaces: {
-            eip155: {
-              methods: [
-                'eth_sendTransaction',
-                'eth_signTransaction',
-                'eth_sign',
-                'personal_sign',
-                'eth_signTypedData',
-                'wallet_addEthereumChain',
-                'wallet_switchEthereumChain',
-              ],
-              chains: ['eip155:1'],
-              events: ['chainChanged', 'accountsChanged'],
-              rpcMap: {},
-            },
-          },
-        optionalNamespaces: {
-        eip155: {
-            methods: [
-            'eth_sendTransaction',
-            'eth_signTransaction',
-            'eth_sign',
-            'personal_sign',
-            'eth_signTypedData',
-            'wallet_addEthereumChain',
-            'wallet_switchEthereumChain',
-            ],
-            chains: ['eip155:1', 'eip155:137', 'eip155:5'],
-            events: ['chainChanged', 'accountsChanged'],
-            rpcMap: {},
-        },
-        },
-    }
+    
     const chainChangeTry = async () => {
         let result = await provider.connect({
             namespaces: {
@@ -300,6 +282,9 @@ const SelectWallet = ({navigation}) => {
         console.log("chainChangeTry result = ", result)
 
     }
+
+   
+
 
     const switchChain1 = async () => {
         try {
@@ -346,6 +331,58 @@ const SelectWallet = ({navigation}) => {
   
     }
 
+    const sendTransactionCallback = async () => {
+        
+        if (!web3Provider) return;
+
+        if(web3Provider) console.log("web3Provider is " + web3Provider);
+
+        // try {
+        //     let method = "sendTransaction";
+
+        //     if (!web3Provider) {
+        //         console.log('web3Provider not connected');
+        //     }
+        
+        //     // Get the signer from the UniversalProvider
+        //     const signer = web3Provider.getSigner();
+        //     const [address] = await web3Provider.listAccounts();
+        
+        //     if (!address) {
+        //         console.log('No address found');
+        //     }
+        
+        //     const amount = sanitizeHex(numberToHex(0));
+        
+        //     const transaction = {
+        //         from: address,
+        //         to: address,
+        //         value: amount,
+        //         data: '0x',
+        //     };
+        
+        //     // Send the transaction using the signer
+        //     const txResponse = await signer.sendTransaction(transaction);
+        
+        //     const transactionHash = txResponse.hash;
+        //     console.log('transactionHash is ' + transactionHash);
+        
+        //     // Wait for the transaction to be mined (optional)
+        //     const receipt = await txResponse.wait();
+        //     console.log('Transaction was mined in block:', receipt.blockNumber);
+
+        //     console.log("valid is " + valid);
+        //     console.log("transactionHash is " + transactionHash);
+
+        //     // 여기서 result를 활용하여 사용자에게 표시할 처리 로직을 작성할 수 있음
+        // } catch (error) {
+        //     console.error('sendTransaction failed:', error);
+
+        // } finally {
+        //     console.log('sendTransactionCallBack end');
+        // }
+    };
+
     return (
         <View style={styles.MyWalletsView}>
             <View style={styles.header}>
@@ -369,6 +406,11 @@ const SelectWallet = ({navigation}) => {
                         <WalletButton 
                             onPress={()=>chainChangeTry()} style={{backgroundColor: Colors.orange500}}>
                             <Text >{"체인 추가전 준비"}</Text>
+                        </WalletButton>
+                        <WalletButton 
+                            onPress={()=> sendTransactionCallback()} 
+                            style={{backgroundColor: Colors.orange500}}>
+                            <Text >{"lastDance"}</Text>
                         </WalletButton>
                         <WalletButton 
                             onPress={()=>switchChain1()} style={{backgroundColor: Colors.orange500}}>
@@ -404,6 +446,21 @@ const SelectWallet = ({navigation}) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         }}onPress={() => navigation.navigate('Payinfo')}><Text style={{fontWeight:'bold', color: Colors.orange400}}>결제 정보 확인</Text></Pressable>
+            </View>
+            <View style={{alignSelf:'flex-end',paddingHorizontal:16}}>
+                    <Pressable style={{        
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        borderColor: Colors.orange500,
+                        padding:5,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        }} 
+                        onPress={() => navigation.navigate('BlockchainActions', {
+                            i_provider: provider,
+                          })}>
+                            <Text style={{fontWeight:'bold', color: Colors.orange400}}>sendTx</Text></Pressable>
             </View>
             <View style={styles.WalletBlockView}>
                 <FlatList
