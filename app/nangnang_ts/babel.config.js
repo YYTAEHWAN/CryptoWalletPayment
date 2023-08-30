@@ -1,6 +1,15 @@
-module.exports = function(api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo'],
-  };
+module.exports = {
+  plugins: ['react-native-reanimated/plugin'],
+  presets: ['module:metro-react-native-babel-preset'],
+  overrides: [
+    {
+      test: './node_modules/ethers',
+      plugins: [
+        '@babel/plugin-proposal-private-property-in-object',
+        [["@babel/plugin-transform-private-methods", { "loose": true }]],
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-private-methods'
+      ]
+    }
+  ]
 };

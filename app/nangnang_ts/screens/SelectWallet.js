@@ -1,3 +1,4 @@
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Text, View, StyleSheet, Image, FlatList,TouchableOpacity,Alert,Pressable} from 'react-native';
 import { Link } from '@react-navigation/native';
@@ -13,6 +14,19 @@ import { usePayinfo } from '../context/PayinfoContext';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import WalletButton from '../components/Buttons/WalletButton';
+
+// https://github.com/ethers-io/ethers.js/issues/3996 이거 보고 추가함
+import 'node-libs-react-native/globals';
+
+// 암호화 getRandomValues ​​shim 가져오기(**shim 이전**)
+import "react-native-get-random-values" //
+
+// ethers shim 가져오기(**ethers 이전**)
+import "@ethersproject/shims"
+
+// 에테르 라이브러리 가져오기
+import { ethers } from "ethers";
+
 
 const goerliapi = "CDFTCSDIJ4HNYU41CJYRP2I3SSCNJ7PGYD"
 const formatData = (data, numColumns) =>{
