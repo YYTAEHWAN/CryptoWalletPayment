@@ -46,7 +46,7 @@ const SelectWallet = ({navigation}) => {
     const{ open, close, provider, isConnected, } = useWalletConnectModal()
     const projectId = '3e3f9e4ec7896dafb000678ff1af2442'
     const providerMetadata = {
-        name: 'NangNang',
+        name: 'NangNang',   
         description: 'NangNang',
         url: 'nangnang',
         icons: ['https://your-project-logo.com/'],

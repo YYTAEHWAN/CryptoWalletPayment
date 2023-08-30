@@ -1,15 +1,11 @@
 module.exports = {
-  plugins: ['react-native-reanimated/plugin'],
-  presets: ['module:metro-react-native-babel-preset'],
-  overrides: [
-    {
-      test: './node_modules/ethers',
-      plugins: [
-        '@babel/plugin-proposal-private-property-in-object',
-        [["@babel/plugin-transform-private-methods", { "loose": true }]],
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-private-methods'
-      ]
-    }
+  presets: [
+    ['@babel/preset-env', { loose: true }],
+    ['module:metro-react-native-babel-preset', { loose: true }]
+  ],
+  plugins: [
+    ["@babel/plugin-transform-flow-strip-types", { "loose": true }],
+    ["@babel/plugin-transform-private-methods", { "loose": true }],
+    ["@babel/plugin-syntax-jsx", { "loose": true }],
   ]
 };
