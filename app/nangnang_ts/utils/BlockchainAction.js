@@ -1,8 +1,9 @@
 import { useWalletConnectModal } from '@walletconnect/modal-react-native';
-import { ethers } from 'ethers';
-import { useMemo, useState } from 'react';
+
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 
+import { ethers } from 'ethers';
+import { useMemo, useState } from 'react';
 import { sanitizeHex, numberToHex } from '@walletconnect/encoding';
 
 import { useRoute } from '@react-navigation/native';
