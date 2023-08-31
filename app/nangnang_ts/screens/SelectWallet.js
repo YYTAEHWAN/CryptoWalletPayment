@@ -246,88 +246,6 @@ const SelectWallet = ({navigation}) => {
         setModalIsVisible(true)
         setWalletAddress(wallet_address)
     }   
-    
-    
-    const chainChangeTry = async () => {
-        let result = await provider.connect({
-            namespaces: {
-                eip155: {
-                  methods: [
-                    'eth_sendTransaction',
-                    'eth_signTransaction',
-                    'eth_sign',
-                    'personal_sign',
-                    'eth_signTypedData',
-                    'wallet_addEthereumChain',
-                    'wallet_switchEthereumChain',
-                  ],
-                  chains: ['eip155:1'],
-                  events: ['chainChanged', 'accountsChanged'],
-                  rpcMap: {},
-                },
-              },
-            optionalNamespaces: {
-            eip155: {
-                methods: [
-                'eth_sendTransaction',
-                'eth_signTransaction',
-                'eth_sign',
-                'personal_sign',
-                'eth_signTypedData',
-                'wallet_addEthereumChain',
-                'wallet_switchEthereumChain',
-                ],
-                chains: ['eip155:1', 'eip155:137', 'eip155:5'],
-                events: ['chainChanged', 'accountsChanged'],
-                rpcMap: {},
-            },
-            },
-        })
-        console.log("chainChangeTry result = ", result)
-    };
-    const switchChain1 = async () => {
-        try {
-          await provider.request({
-            method: 'wallet_switchEthereumChain',
-            params: [
-              {
-                chainId: '0x38',
-              },
-            ],
-          });
-        } catch (error) {
-          await provider.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: '0x38',
-                chainName: 'Bsc',
-                nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-                rpcUrls: ['https://bsc.publicnode.com'],
-              },
-            ],
-          });
-        }
-    };
-    const switchChain2 = async () => {
-    try {
-        let chainId =  137;
-        await provider?.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${chainId.toString(16)}` }],
-            
-        });
-    } catch (error) {
-        console.log(error);
-    }
-    };
-    const session_update = async (i_topic, i_params) => {
-        // Subscribe to session update
-        provider.on("session_update", ({ i_topic, i_params }) => {
-            console.log("session_update", i_topic, i_params);
-        });
-  
-    }
 
     const sendTransactionCallback = async () => {
         console.log("sendTransactionCallBack start");
@@ -407,22 +325,6 @@ const SelectWallet = ({navigation}) => {
                             style={{backgroundColor: Colors.orange500}}>
                             <Text >{"sendTransactionCallback"}</Text>
                         </WalletButton>
-                        {/* <WalletButton 
-                            onPress={()=>chainChangeTry()} style={{backgroundColor: Colors.orange500}}>
-                            <Text >{"체인 추가전 준비"}</Text>
-                        </WalletButton>
-                        <WalletButton 
-                            onPress={()=>switchChain1()} style={{backgroundColor: Colors.orange500}}>
-                            <Text >{"체인 변경1!"}</Text>
-                        </WalletButton>
-                        <WalletButton 
-                            onPress={()=>switchChain2()} style={{backgroundColor: Colors.orange500}}>
-                            <Text >{"체인 변경2!"}</Text>
-                        </WalletButton>
-                        <WalletButton 
-                            onPress={()=>session_update(provider.session.topic, params )} style={{backgroundColor: Colors.orange500}}>
-                            <Text >{"session_update"}</Text>
-                        </WalletButton> */}
 
                         <WalletButton onPress={()=>ConnectData()} style={{marginTop:16}}>
                             <Text >{'지갑 연결 데이터 확인'}</Text>
