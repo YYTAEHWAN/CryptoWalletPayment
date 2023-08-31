@@ -27,6 +27,7 @@ import "@ethersproject/shims"
 
 // 에테르 라이브러리 가져오기
 import { ethers } from "ethers";
+// import { Provider } from '@ethersproject/providers';
 
 import { useMemo } from 'react';
 import { sanitizeHex, numberToHex } from '@walletconnect/encoding';
@@ -95,6 +96,7 @@ const SelectWallet = ({navigation}) => {
           console.log("아직 세션 살아있음");
         }
     }
+
     const [payinfo] = usePayinfo();  
     const [state, dispatch] =useContext(AuthContext);
     const [modalIsVisible, setModalIsVisible] = useState(false); 
@@ -102,10 +104,10 @@ const SelectWallet = ({navigation}) => {
     const [walletlist, setWalletList] = useState([]);
     const [errorNum, setErrorNum] = useState(0);
     const [walletAddress, setWalletAddress] = useState("");
+
     useEffect(()=>{
         setWalletList(wallets);
         return ()=>{
-
         }
     },[])
     useEffect(()=>{
@@ -150,6 +152,7 @@ const SelectWallet = ({navigation}) => {
             console.log("open 함수 실행완료")
         }
     }
+    
     const sendTX = async()=>{
         if (payinfo.selectedWalletID === "" && payinfo.mywalletaddress === ""){
             Alert.alert("지갑선택", "결제에 사용할 지갑주소를 결정해주세요",[
@@ -244,6 +247,7 @@ const SelectWallet = ({navigation}) => {
         setWalletAddress(wallet_address)
     }   
     
+    
     const chainChangeTry = async () => {
         let result = await provider.connect({
             namespaces: {
@@ -280,12 +284,7 @@ const SelectWallet = ({navigation}) => {
             },
         })
         console.log("chainChangeTry result = ", result)
-
-    }
-
-   
-
-
+    };
     const switchChain1 = async () => {
         try {
           await provider.request({
@@ -309,20 +308,19 @@ const SelectWallet = ({navigation}) => {
             ],
           });
         }
-      };
-      const switchChain2 = async () => {
-        try {
-            let chainId =  137;
-            await provider?.request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: `0x${chainId.toString(16)}` }],
-                
-            });
-        } catch (error) {
-            console.log(error);
-        }
-      }
-    
+    };
+    const switchChain2 = async () => {
+    try {
+        let chainId =  137;
+        await provider?.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${chainId.toString(16)}` }],
+            
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    };
     const session_update = async (i_topic, i_params) => {
         // Subscribe to session update
         provider.on("session_update", ({ i_topic, i_params }) => {
@@ -332,55 +330,56 @@ const SelectWallet = ({navigation}) => {
     }
 
     const sendTransactionCallback = async () => {
-        
+        console.log("sendTransactionCallBack start");
         if (!web3Provider) return;
 
         if(web3Provider) console.log("web3Provider is " + web3Provider);
 
-        // try {
-        //     let method = "sendTransaction";
+        try {
+            let method = "sendTransaction";
 
-        //     if (!web3Provider) {
-        //         console.log('web3Provider not connected');
-        //     }
+            if (!web3Provider) {
+                console.log('web3Provider not connected');
+            }
         
-        //     // Get the signer from the UniversalProvider
-        //     const signer = web3Provider.getSigner();
-        //     const [address] = await web3Provider.listAccounts();
-        
-        //     if (!address) {
-        //         console.log('No address found');
-        //     }
-        
-        //     const amount = sanitizeHex(numberToHex(0));
-        
-        //     const transaction = {
-        //         from: address,
-        //         to: address,
-        //         value: amount,
-        //         data: '0x',
-        //     };
-        
-        //     // Send the transaction using the signer
-        //     const txResponse = await signer.sendTransaction(transaction);
-        
-        //     const transactionHash = txResponse.hash;
-        //     console.log('transactionHash is ' + transactionHash);
-        
-        //     // Wait for the transaction to be mined (optional)
-        //     const receipt = await txResponse.wait();
-        //     console.log('Transaction was mined in block:', receipt.blockNumber);
+            // Get the signer from the UniversalProvider
+            const signer = web3Provider.getSigner();
+            const [address] = await web3Provider.listAccounts();
+            console.log('address is ' + address);
 
-        //     console.log("valid is " + valid);
-        //     console.log("transactionHash is " + transactionHash);
+            if (!address) {
+                console.log('No address found');
+            }
+        
+            const amount = sanitizeHex(numberToHex(0));
+        
+            const transaction = {
+                from: address,
+                to: address,
+                value: amount,
+                data: '0x',
+            };
+        
+            // Send the transaction using the signer
+            const txResponse = await signer.sendTransaction(transaction);
+        
+            const transactionHash = txResponse.hash;
+            console.log('transactionHash is ' + transactionHash);
+        
+            // Wait for the transaction to be mined (optional)
+            const receipt = await txResponse.wait();
+            console.log('Transaction was mined in block:', receipt.blockNumber);
 
-        //     // 여기서 result를 활용하여 사용자에게 표시할 처리 로직을 작성할 수 있음
-        // } catch (error) {
-        //     console.error('sendTransaction failed:', error);
+            console.log("transactionHash is " + transactionHash);
 
-        // } finally {
-        //     console.log('sendTransactionCallBack end');
-        // }
+            // 여기서 result를 활용하여 사용자에게 표시할 처리 로직을 작성할 수 있음
+        } catch (error) {
+            console.error('sendTransaction failed:', error);
+
+        } finally {
+            console.log('sendTransactionCallBack end');
+        }
+        console.log("sendTransactionCallBack end");
     };
 
     return (
@@ -404,13 +403,13 @@ const SelectWallet = ({navigation}) => {
                             <Text >{"결제 하기"}</Text>
                         </WalletButton>
                         <WalletButton 
-                            onPress={()=>chainChangeTry()} style={{backgroundColor: Colors.orange500}}>
-                            <Text >{"체인 추가전 준비"}</Text>
-                        </WalletButton>
-                        <WalletButton 
                             onPress={()=> sendTransactionCallback()} 
                             style={{backgroundColor: Colors.orange500}}>
-                            <Text >{"lastDance"}</Text>
+                            <Text >{"sendTransactionCallback"}</Text>
+                        </WalletButton>
+                        {/* <WalletButton 
+                            onPress={()=>chainChangeTry()} style={{backgroundColor: Colors.orange500}}>
+                            <Text >{"체인 추가전 준비"}</Text>
                         </WalletButton>
                         <WalletButton 
                             onPress={()=>switchChain1()} style={{backgroundColor: Colors.orange500}}>
@@ -423,7 +422,7 @@ const SelectWallet = ({navigation}) => {
                         <WalletButton 
                             onPress={()=>session_update(provider.session.topic, params )} style={{backgroundColor: Colors.orange500}}>
                             <Text >{"session_update"}</Text>
-                        </WalletButton>
+                        </WalletButton> */}
 
                         <WalletButton onPress={()=>ConnectData()} style={{marginTop:16}}>
                             <Text >{'지갑 연결 데이터 확인'}</Text>
@@ -447,21 +446,7 @@ const SelectWallet = ({navigation}) => {
                         alignItems: 'center',
                         }}onPress={() => navigation.navigate('Payinfo')}><Text style={{fontWeight:'bold', color: Colors.orange400}}>결제 정보 확인</Text></Pressable>
             </View>
-            <View style={{alignSelf:'flex-end',paddingHorizontal:16}}>
-                    <Pressable style={{        
-                        borderRadius: 10,
-                        borderWidth: 2,
-                        borderColor: Colors.orange500,
-                        padding:5,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        }} 
-                        onPress={() => navigation.navigate('BlockchainActions', {
-                            i_provider: provider,
-                          })}>
-                            <Text style={{fontWeight:'bold', color: Colors.orange400}}>sendTx</Text></Pressable>
-            </View>
+            
             <View style={styles.WalletBlockView}>
                 <FlatList
                     numColumns={2}
