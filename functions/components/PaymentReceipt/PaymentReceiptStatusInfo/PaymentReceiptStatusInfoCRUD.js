@@ -50,12 +50,14 @@ module.exports = {
                 console.log('이미 데이터가 존재합니다.');
                 return -1; // 실패
             } else {
+                const offset = 1000 * 60 * 60 * 9
+                const koreaNow = new Date((new Date()).getTime() + offset)
                 // payment_receipt_status_info 컬렉션에 새로운 문서 생성
                 // 데이터 만들기
                 const beginingData = {
                     payment_receipt_idx: paymentReceiptIdx,
                     payment_status: 0, // 영수증 만드는 중(초기화 중)
-                    payment_start_time: new Date().toLocaleString(),
+                    payment_start_time: koreaNow.toISOString().replace("T", ", ").split('.')[0],
                     payment_end_time: null
                 };
                 await db.collection('payment_receipt_status_info').doc(String(paymentReceiptIdx)).set(beginingData);
@@ -175,9 +177,12 @@ module.exports = {
     
             if (doc.exists) {
                 // 수정하려는 데이터가 존재한다면
+                const offset = 1000 * 60 * 60 * 9
+                const koreaNow = new Date((new Date()).getTime() + offset)
+
                 await db.collection('payment_receipt_status_info').doc(String(paymentReceiptIdx)).update({
                     payment_status: paymentStatus, // 결제 완료:999, 실패:-1
-                    payment_end_time: new Date().toLocaleString()
+                    payment_end_time: koreaNow.toISOString().replace("T", ", ").split('.')[0]
                 });
                 // console.log('updatePaymentEnd 실행 성공');
                 return 1; // 성공
