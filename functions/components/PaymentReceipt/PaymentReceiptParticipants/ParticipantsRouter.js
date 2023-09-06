@@ -6,6 +6,7 @@ const express = require('express');
 const ParticipantsRouter = express.Router();
 
 ParticipantsRouter.post("/paymentreceipt/participants", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await ParticipantsDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ ParticipantsRouter.post("/paymentreceipt/participants", async (req,res) => {
 })
 
 ParticipantsRouter.get("/paymentreceipt/participants", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const payment_receipt_idx =  req.body.payment_receipt_idx;
         const participantsDoc = await ParticipantsDB.read(req.query);
@@ -31,6 +33,7 @@ ParticipantsRouter.get("/paymentreceipt/participants", async (req,res) => {
 })
 
 ParticipantsRouter.patch('/paymentreceipt/participants', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await ParticipantsDB.update(req.body);
         res.status(200).json({
@@ -43,6 +46,7 @@ ParticipantsRouter.patch('/paymentreceipt/participants', async (req, res) => {
 })
 
 ParticipantsRouter.delete('/paymentreceipt/participants', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const payment_receipt_idx =  req.body.payment_receipt_idx;
         const result = await ParticipantsDB.delete(req.body);

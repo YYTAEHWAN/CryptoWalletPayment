@@ -6,6 +6,7 @@ const express = require('express');
 const IdxAssociatedUserRouter = express.Router();
 
 IdxAssociatedUserRouter.post('/idxassociateduser', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await IdxAssociatedUserDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ IdxAssociatedUserRouter.post('/idxassociateduser', async (req, res) => {
 });
 
 IdxAssociatedUserRouter.get('/idxassociateduser', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await IdxAssociatedUserDB.read(req.query);
         res.status(200).json({
@@ -30,6 +32,7 @@ IdxAssociatedUserRouter.get('/idxassociateduser', async (req, res) => {
 });
 
 IdxAssociatedUserRouter.delete('/idxassociateduser', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await IdxAssociatedUserDB.delete(req.body);
         res.status(200).json({

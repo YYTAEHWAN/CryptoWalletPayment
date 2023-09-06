@@ -9,6 +9,7 @@ const express = require('express');
 const NetworkInfoRouter = express.Router();
 
 NetworkInfoRouter.post('/paymentreceipt/networkinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const networkDatas = req.body;
         const result = await NetworkInfoDB.create(req.body);
@@ -22,6 +23,7 @@ NetworkInfoRouter.post('/paymentreceipt/networkinfo', async (req, res) => {
 })
 
 NetworkInfoRouter.get("/paymentreceipt/networkinfo", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
 
         const networkinfoDoc = await NetworkInfoDB.read(req.query);
@@ -36,6 +38,7 @@ NetworkInfoRouter.get("/paymentreceipt/networkinfo", async (req,res) => {
 })
 
 NetworkInfoRouter.patch('/paymentreceipt/networkinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await NetworkInfoDB.update(req.body);
         res.status(200).json({
@@ -48,6 +51,7 @@ NetworkInfoRouter.patch('/paymentreceipt/networkinfo', async (req, res) => {
 })
 
 NetworkInfoRouter.delete('/paymentreceipt/networkinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         
         const result = await NetworkInfoDB.delete(req.body);

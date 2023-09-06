@@ -6,6 +6,7 @@ const express = require('express');
 const ConsumerRouter = express.Router();
 
 ConsumerRouter.post('/consumer', async (req, res) => {
+   res.setHeader('Access-Control-Allow-Origin', '*'); 
    try {
         console.log("req.body.consumer_id: "+req.body.consumer_id);
         const result = await ConsumerDB.createConsumer(req.body);
@@ -19,6 +20,7 @@ ConsumerRouter.post('/consumer', async (req, res) => {
 });
 
 ConsumerRouter.get('/consumer', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await ConsumerDB.readConsumer(req.query);
         res.status(200).json({
@@ -31,6 +33,7 @@ ConsumerRouter.get('/consumer', async (req, res) => {
 });
 
 ConsumerRouter.patch('/consumer', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await ConsumerDB.updateConsumer(req.body);
         res.status(200).json({
@@ -43,6 +46,7 @@ ConsumerRouter.patch('/consumer', async (req, res) => {
 });
 
 ConsumerRouter.delete('/consumer', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await ConsumerDB.deleteConsumer(req.body);
         res.status(200).json({

@@ -6,6 +6,7 @@ const express = require('express');
 const WalletRouter = express.Router();
 
 WalletRouter.post('/brofucntions/sangyunbro/WalletOne/createSellerChosenWalletFunc', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await WalletFuncs.createSellerChosenWalletFunc(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ WalletRouter.post('/brofucntions/sangyunbro/WalletOne/createSellerChosenWalletFu
 });
 
 WalletRouter.get('/brofucntions/sangyunbro/WalletOne/readCryptoWalletListFunc', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await WalletFuncs.readCryptoWalletListFunc(req.query);
         res.status(200).json({

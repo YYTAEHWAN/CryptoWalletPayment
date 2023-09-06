@@ -7,6 +7,7 @@ const UserDataRouter = express.Router();
 
 
 UserDataRouter.post("/user", async (req,res) => { 
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const user_data = {
         //     "id": req.body.id,
@@ -31,6 +32,7 @@ UserDataRouter.post("/user", async (req,res) => {
 
 
 UserDataRouter.get("/user", async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         console.log("UserDataRouter get 실행되었습니다.");
         
@@ -48,6 +50,7 @@ UserDataRouter.get("/user", async (req, res) => {
 })
 
 UserDataRouter.patch("/user", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
 
         console.log("req.body.id: "+req.body.id);
@@ -68,6 +71,7 @@ UserDataRouter.patch("/user", async (req,res) => {
 
 
 UserDataRouter.delete("/user", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await userDataDB.deleteUserData(req.body);
         res.status(200).json({

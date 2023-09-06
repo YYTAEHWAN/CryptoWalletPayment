@@ -6,6 +6,7 @@ const express = require('express');
 const CryptoWalletListRouter = express.Router();
 
 CryptoWalletListRouter.post('/cryptowalletlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await CryptoWalletListDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ CryptoWalletListRouter.post('/cryptowalletlist', async (req, res) => {
 });
 
 CryptoWalletListRouter.get('/cryptowalletlist/read', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await CryptoWalletListDB.read();
         res.status(200).json({
@@ -30,6 +32,7 @@ CryptoWalletListRouter.get('/cryptowalletlist/read', async (req, res) => {
 });
 
 CryptoWalletListRouter.get('/cryptowalletlist/readOneNameByIdx', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log(req.body);
         const result = await CryptoWalletListDB.readOneNameByIdx(req.query);
@@ -43,6 +46,7 @@ CryptoWalletListRouter.get('/cryptowalletlist/readOneNameByIdx', async (req, res
 });
 
 CryptoWalletListRouter.get('/cryptowalletlist/readOneIdxByName', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await CryptoWalletListDB.readOneIdxByName(req.query);
         res.status(200).json({
@@ -55,6 +59,7 @@ CryptoWalletListRouter.get('/cryptowalletlist/readOneIdxByName', async (req, res
 });
 
 CryptoWalletListRouter.patch('/cryptowalletlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await CryptoWalletListDB.update(req.body);
         res.status(200).json({
@@ -67,6 +72,7 @@ CryptoWalletListRouter.patch('/cryptowalletlist', async (req, res) => {
 });
 
 CryptoWalletListRouter.delete('/cryptowalletlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await CryptoWalletListDB.delete(req.body);
         res.status(200).json({

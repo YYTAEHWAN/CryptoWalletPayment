@@ -6,6 +6,7 @@ const express = require('express');
 const SellersChosenMainBlockchainRouter = express.Router();
 
 SellersChosenMainBlockchainRouter.post('/sellerschosenmainblockchain', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenMainBlockchainDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ SellersChosenMainBlockchainRouter.post('/sellerschosenmainblockchain', async (re
 });
 
 SellersChosenMainBlockchainRouter.get('/sellerschosenmainblockchain', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenMainBlockchainDB.read(req.query);
         res.status(200).json({
@@ -30,6 +32,7 @@ SellersChosenMainBlockchainRouter.get('/sellerschosenmainblockchain', async (req
 });
 
 SellersChosenMainBlockchainRouter.delete('/sellerschosenmainblockchain', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenMainBlockchainDB.delete(req.body);
         res.status(200).json({

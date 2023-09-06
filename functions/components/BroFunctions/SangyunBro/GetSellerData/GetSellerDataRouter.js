@@ -6,6 +6,7 @@ const express = require('express');
 const GetSellerDataRouter = express.Router();
 
 GetSellerDataRouter.get('/brofucntions/sangyunbro/GetSellerData/getsellerdata', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await GetSellerDataFunc.getSellerData(req.query);
         res.status(200).json({

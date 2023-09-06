@@ -6,6 +6,7 @@ const express = require('express');
 const SellerRouter = express.Router();
 
 SellerRouter.post('/seller', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellerDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ SellerRouter.post('/seller', async (req, res) => {
 });
 
 SellerRouter.get('/seller', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellerDB.readPlatformName(req.query);
         res.status(200).json({
@@ -30,6 +32,7 @@ SellerRouter.get('/seller', async (req, res) => {
 });
 
 SellerRouter.patch('/seller', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellerDB.update(req.body);
         res.status(200).json({
@@ -42,6 +45,7 @@ SellerRouter.patch('/seller', async (req, res) => {
 });
 
 SellerRouter.delete('/seller', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellerDB.delete(req.body);
         res.status(200).json({

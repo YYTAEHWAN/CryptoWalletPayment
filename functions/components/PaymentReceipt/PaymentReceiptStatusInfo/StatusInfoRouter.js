@@ -23,6 +23,7 @@ const StatusInfoRouter = express.Router();
 
 
 StatusInfoRouter.post('/paymentreceipt/statusinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await StatusInfoDB.create();
         console.log("StatusInfoRouter - result:", result);
@@ -37,6 +38,7 @@ StatusInfoRouter.post('/paymentreceipt/statusinfo', async (req, res) => {
 
 
 StatusInfoRouter.get("/paymentreceipt/statusinfo", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const statusinfoDoc = await StatusInfoDB.read(req.query);
         res.status(200).json({
@@ -49,6 +51,7 @@ StatusInfoRouter.get("/paymentreceipt/statusinfo", async (req,res) => {
 })
 
 StatusInfoRouter.patch('/paymentreceipt/statusinfo', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const payment_receipt_idx =  req.body.payment_receipt_idx;
         res.status(200).json({
@@ -60,6 +63,7 @@ StatusInfoRouter.patch('/paymentreceipt/statusinfo', (req, res) => {
 })
 
 StatusInfoRouter.delete('/paymentreceipt/statusinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await StatusInfoDB.delete(req.body);
         res.status(200).json({

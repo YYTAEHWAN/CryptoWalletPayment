@@ -6,6 +6,7 @@ const express = require('express');
 const MainBlockchainListRouter = express.Router();
 
 MainBlockchainListRouter.post('/mainblockchainlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log(req.body);
         const result = await MainBlockchainListDB.create(req.body);
@@ -19,6 +20,7 @@ MainBlockchainListRouter.post('/mainblockchainlist', async (req, res) => {
 });
 
 MainBlockchainListRouter.get('/mainblockchainlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await MainBlockchainListDB.read();
         res.status(200).json({
@@ -31,6 +33,7 @@ MainBlockchainListRouter.get('/mainblockchainlist', async (req, res) => {
 });
 
 MainBlockchainListRouter.get('/mainblockchainlist/readChainNameByIdx', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log(req.body);
         const result = await MainBlockchainListDB.readChainNameByIdx(req.query);
@@ -44,6 +47,7 @@ MainBlockchainListRouter.get('/mainblockchainlist/readChainNameByIdx', async (re
 });
 
 MainBlockchainListRouter.get('/mainblockchainlist/readChainIdxByName', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log(req.body);
         const result = await MainBlockchainListDB.readChainIdxByName(req.query);
@@ -58,6 +62,7 @@ MainBlockchainListRouter.get('/mainblockchainlist/readChainIdxByName', async (re
 
 
 MainBlockchainListRouter.patch('/mainblockchainlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await MainBlockchainListDB.update(req.body);
         res.status(200).json({
@@ -72,6 +77,7 @@ MainBlockchainListRouter.patch('/mainblockchainlist', async (req, res) => {
 
 
 MainBlockchainListRouter.delete('/mainblockchainlist', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await MainBlockchainListDB.delete(req.body);
         res.status(200).json({

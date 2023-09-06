@@ -6,6 +6,7 @@ const express = require('express');
 const ChosenWalletRouter = express.Router();
 
 ChosenWalletRouter.get('/brofucntions/sangyunbro/WalletTwo/chosenwallet', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await ChosenWalletFuncs.read(req.query);
         res.status(200).json({
@@ -18,6 +19,7 @@ ChosenWalletRouter.get('/brofucntions/sangyunbro/WalletTwo/chosenwallet', async 
 });
 
 ChosenWalletRouter.delete('/brofucntions/sangyunbro/WalletTwo/chosenwallet', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await ChosenWalletFuncs.delete(req.body);
         res.status(200).json({

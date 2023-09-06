@@ -6,7 +6,7 @@ const express = require('express');
 const GetPaymentReceiptDataRouter = express.Router();
 
 GetPaymentReceiptDataRouter.get('/getpaymentreceiptdata/justonedata', async (req, res) => {
-    
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const paymentReceiptData = await GetPaymentReceiptDataFuncs.getPaymentReceiptDataByPaymentIdx(req.query);
         res.status(200).json({
@@ -20,7 +20,7 @@ GetPaymentReceiptDataRouter.get('/getpaymentreceiptdata/justonedata', async (req
 
 
 GetPaymentReceiptDataRouter.get('/getpaymentreceiptdata/productnameprice', async (req, res) => {
-    
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const paymentReceiptData = await GetPaymentReceiptDataFuncs.getPayDataAndProductNamePriceByPaymentIdx(req.query);
         res.status(200).json({

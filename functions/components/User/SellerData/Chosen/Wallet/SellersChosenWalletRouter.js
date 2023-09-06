@@ -6,6 +6,7 @@ const express = require('express');
 const SellersChosenWalletRouter = express.Router();
 
 SellersChosenWalletRouter.post('/sellerschosenwallet', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenWalletDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ SellersChosenWalletRouter.post('/sellerschosenwallet', async (req, res) => {
 });
 
 SellersChosenWalletRouter.get('/sellerschosenwallet', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenWalletDB.read(req.query);
         res.status(200).json({
@@ -30,6 +32,7 @@ SellersChosenWalletRouter.get('/sellerschosenwallet', async (req, res) => {
 });
 
 SellersChosenWalletRouter.patch('/sellerschosenwallet', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenWalletDB.update(req.body);
         res.status(200).json({
@@ -42,6 +45,7 @@ SellersChosenWalletRouter.patch('/sellerschosenwallet', async (req, res) => {
 });
 
 SellersChosenWalletRouter.delete('/sellerschosenwallet', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await SellersChosenWalletDB.delete(req.body);
         res.status(200).json({

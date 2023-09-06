@@ -6,6 +6,7 @@ const express = require('express');
 const ManageBcRouter = express.Router();
 
 ManageBcRouter.post('/brofucntions/sangyunbro/BlockchainOne/createSellersChosenMainBlockchain', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await ManageBcFuncs.createSellersChosenMainBlockchain(req.body);
         res.status(200).json({

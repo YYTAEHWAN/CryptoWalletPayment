@@ -6,6 +6,7 @@ const express = require('express');
 const MultipleProductsInfoRouter = express.Router();
 
 MultipleProductsInfoRouter.post('/paymentreceipt/multipleproductsinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await MultipleProductsInfoDB.create(req.body);
         res.status(200).json({
@@ -18,6 +19,7 @@ MultipleProductsInfoRouter.post('/paymentreceipt/multipleproductsinfo', async (r
 })
 
 MultipleProductsInfoRouter.get("/paymentreceipt/multipleproductsinfo/readonlyquantity", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const multipleproductsinfoDoc = await MultipleProductsInfoDB.read(req.query);
         console.log("multipleproductsinfoDoc: ", multipleproductsinfoDoc);
@@ -31,6 +33,7 @@ MultipleProductsInfoRouter.get("/paymentreceipt/multipleproductsinfo/readonlyqua
 })
 
 MultipleProductsInfoRouter.get('/paymentreceipt/multipleproductsinfo/productandquantity', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const receiptIdx = req.body.payment_receipt_idx;
         const result = await MultipleProductsInfoDB.readAllProductInfoIdxAndQuantity(receiptIdx);
@@ -45,6 +48,7 @@ MultipleProductsInfoRouter.get('/paymentreceipt/multipleproductsinfo/productandq
 
 
 MultipleProductsInfoRouter.patch('/paymentreceipt/multipleproductsinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await MultipleProductsInfoDB.update_quantity(req.body);
         res.status(200).json({
@@ -58,6 +62,7 @@ MultipleProductsInfoRouter.patch('/paymentreceipt/multipleproductsinfo', async (
 
 
 MultipleProductsInfoRouter.delete('/paymentreceipt/multipleproductsinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const result = await MultipleProductsInfoDB.delete(req.body);
         res.status(200).json({

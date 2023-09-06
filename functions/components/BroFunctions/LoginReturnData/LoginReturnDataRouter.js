@@ -6,6 +6,7 @@ const express = require('express');
 const LoginReturnDataRouter = express.Router();
 
 LoginReturnDataRouter.post('/login/loginreturndata', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log("input_user_id : ", req.body.input_user_id);
         console.log("input_user_pwd : ", req.body.input_user_pwd);
@@ -20,6 +21,7 @@ LoginReturnDataRouter.post('/login/loginreturndata', async (req, res) => {
 });
 
 LoginReturnDataRouter.post('/login/justlogin', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const reslut = await LoginReturnDataFuncs.Login(req.body);
         res.status(200).json({

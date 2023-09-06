@@ -7,6 +7,7 @@ const PriceAddressInfoRouter = express.Router();
 
 
 PriceAddressInfoRouter.post('/paymentreceipt/priceaddressinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const priceAddressDatas = req.body;
         const result = await PriceAddressInfoDB.create(req.body);
@@ -20,6 +21,7 @@ PriceAddressInfoRouter.post('/paymentreceipt/priceaddressinfo', async (req, res)
 })
 
 PriceAddressInfoRouter.get("/paymentreceipt/priceaddressinfo", async (req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const payment_receipt_idx =  req.body.payment_receipt_idx;
 
@@ -34,6 +36,7 @@ PriceAddressInfoRouter.get("/paymentreceipt/priceaddressinfo", async (req,res) =
 })
 
 PriceAddressInfoRouter.patch('/paymentreceipt/priceaddressinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         const result = await PriceAddressInfoDB.update(req.body);
         res.status(200).json({
@@ -47,6 +50,7 @@ PriceAddressInfoRouter.patch('/paymentreceipt/priceaddressinfo', async (req, res
 
 
 PriceAddressInfoRouter.delete('/paymentreceipt/priceaddressinfo', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
     try {
         // const payment_receipt_idx =  req.body.payment_receipt_idx;
         const result = await PriceAddressInfoDB.delete(req.body);

@@ -6,7 +6,7 @@ const express = require('express');
 const PaymentProcessRouter = express.Router();
 
 PaymentProcessRouter.post('/paymentprocess/startsetting', async (req, res) => {
-    
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         const payment_receipt_idx = await PaymentProcessFuncs.startSetting();
         res.status(200).json({
@@ -19,6 +19,7 @@ PaymentProcessRouter.post('/paymentprocess/startsetting', async (req, res) => {
 });
 
 PaymentProcessRouter.post('/paymentprocess/storepaymentdata', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         // console.log("paymentreceiptidx: ", req.body.payment_receipt_idx);
         // console.log("priceaddressinfo_obejct : ", req.body.priceaddressinfo_obejct);
