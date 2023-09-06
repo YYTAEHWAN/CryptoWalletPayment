@@ -1,12 +1,13 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const express = require("express");
+const cors = require('cors');
 
 admin.initializeApp();
 
 const nangnangDB = express();
 nangnangDB.use(express.json());
-
+nangnangDB.use(cors());
 
 
 // BroFunctions 폴더 ---------------------------------------------------------------------------------------------------------------------------------
