@@ -136,10 +136,13 @@ const SelectWallet = ({navigation}) => {
             console.log('지갑주소 ' + address);
             
             const amount = sanitizeHex(numberToHex(payinfo.exchangedvalue));
+            const amountBigNum = ethers.BigNumber.from(1)
+            console.log("mywalletaddress = ", payinfo.mywalletaddress)
+            console.log("walletaddress = ", payinfo.walletaddress)
             const transaction = {
                 from: payinfo.mywalletaddress,
                 to: payinfo.walletaddress,
-                value: amount,
+                value: amountBigNum,
                 data: '0x',
             };
             
@@ -148,6 +151,7 @@ const SelectWallet = ({navigation}) => {
             const transactionHash = txResponse.hash;
             console.log('트랜잭션 해쉬값 ' + transactionHash);
             const namespaces = provider?.namespaces
+            console.log("namespaces.eip155.chains : ", namespaces.eip155.chains)
             const networknum = namespaces.eip155.chains.map(item => {
                 const match = item.match(/eip155:(\d+)/);
                 return match ? match[1] : null;
