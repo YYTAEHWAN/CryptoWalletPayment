@@ -51,7 +51,7 @@ const SelectWallet = ({navigation}) => {
 
     useEffect(() => {
         if (provider) {
-            const providerInstance = new ethers.providers.Web3Provider(provider);
+            const providerInstance = new ethers.providers.Web3Provider(provider, "any");
             setWeb3Provider(providerInstance);
         }
     }, [provider]);
@@ -207,7 +207,7 @@ const SelectWallet = ({navigation}) => {
                                         "detailed_network_name" : "Ethereum Mainnet",
                                         "detailed_network_real_id_num" : "1",
                                         "payment_wallet_name" : payinfo.selectedWallet
-                                    }
+                                    }   
                             }
                         })
                         console.log("결제 데이터 저장", JSON.stringify(res, null, 2))
@@ -277,24 +277,18 @@ const SelectWallet = ({navigation}) => {
         setWalletAddress(wallet_address)
     }   
 
-    // const sendTxFunc = async () => {
-    //     provider?.request({
-    //         method: 'eth_sendTransaction',
-    //         params: [{
-    //             value: "8800000000000",
-    //             from: "0xBC1B146F5C0aa68f76F8E2835A6FAe166Db8f647",
-    //             to: "0xBC1B146F5C0aa68f76F8E2835A6FAe166Db8f647",
-    //         }]
-    //         })
-    //         .then((result) => {
-    //         // Returns transaction id (hash)
-    //         console.log("result = ", result);
-    //         })
-    //         .catch((error) => {
-    //         // Error returned when rejected
-    //         console.log("error = ", error);
-    //         });
-    // }
+    const syncChain = async (newNetwork, oldNetwork) => {
+        console.log("syncChain start");
+        await provider.on("network", (newNetwork, oldNetwork) => {
+            // When a Provider makes its initial connection, it emits a "network"
+            // event with a null oldNetwork along with the newNetwork. So, if the
+            // oldNetwork exists, it represents a changing network
+            if (oldNetwork) {
+                console.log("Network changed, reloading page");
+            }
+        });
+        console.log("syncChain end");
+    }
 
     return (
         <View style={styles.MyWalletsView}>
@@ -316,10 +310,16 @@ const SelectWallet = ({navigation}) => {
                             {provider?.session?.peer.metadata.name}
                         </Text>
                         <WalletButton 
+                            onPress={()=> syncChain("56", "1")} 
+                            style={{backgroundColor: Colors.orange500}}>
+                            <Text >{"체인 동기화하기"}</Text>
+                        </WalletButton>
+                        <WalletButton 
                             onPress={()=> sendTransactionCallback()} 
                             style={{backgroundColor: Colors.orange500}}>
                             <Text >{"결제하기"}</Text>
                         </WalletButton>
+                        
                         <WalletButton onPress={()=>killSession()} style={{marginTop:16}}>
                             <Text >{'지갑 연결 세션 종료'}</Text>
                         </WalletButton>
