@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "낭낭",
-    "slug": "nangnang",
+    "slug": "nangnang_ts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,9 +18,12 @@
       "supportsTablet": true
     },
     "android": {
-      "package":"com.nangnang.tukorea",
-      "versionCode":1,
-      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
+      "package": "com.nangnang.tukorea",
+      "versionCode": 1,
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -30,7 +33,10 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-        "projectId": "047f3939-4c95-4eba-9929-5c9a0f1c9496"
+      "projectId": "047f3939-4c95-4eba-9929-5c9a0f1c9496",
+      "eas": {
+        "projectId": "8b690707-912d-4376-9c3d-0ad08015ee3b"
+      }
     }
   }
 }

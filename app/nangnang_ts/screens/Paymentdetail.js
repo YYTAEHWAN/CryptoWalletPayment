@@ -15,7 +15,7 @@ function Paymentdetail({route, navigation}) {
         navigation.goBack()
     }
     useEffect(()=>{
-        console.log(JSON.stringify(data,null,2))
+        console.log("제품 결제내역",JSON.stringify(data.networkInfoData,null,2))
     },[])
   return (
     <View style={styles.paymentdetailView}>
@@ -28,12 +28,13 @@ function Paymentdetail({route, navigation}) {
             <ScreenTitle title="상세 결제 내역" />
         </View>
         <ScrollView style={styles.content}>
-            <ContentsBox title="제품명" contents={data.productsAllData.product_name}/>
-            <ContentsBox title="결제된 금액(원)" contents={""}/>
-            <ContentsBox title="사용한 지갑" contents={""}/>
+            <ContentsBox title="제품명" contents={data.productsAllData[0].product_name}/>
+            <ContentsBox title="결제된 금액(원)" contents={data.productsAllData[0].product_won_price_per}/>
+            <ContentsBox title="사용한 지갑" contents={data.networkInfoData.payment_wallet_name}/>
             <ContentsBox title="사용한 코인" contents={""}/>
-            <ContentsBox title="환산된 코인 금액" contents={""}/>
-            <ContentsBox title="보낸 지갑 주소" contents={""}/>
+            <ContentsBox title="환산된 코인 금액" contents={data.participantsInfoData.total_coin_price}/>
+            <ContentsBox title="보낸 지갑 주소" contents={data.participantsInfoData.receiver_wallet_address}/>
+            <ContentsBox title="결제 시작" contents={data.statusInfoData.payment_end_time}/>
         </ScrollView>
         <View style={styles.button}>
                 <SubmitButton onPress={goback}>확인</SubmitButton>

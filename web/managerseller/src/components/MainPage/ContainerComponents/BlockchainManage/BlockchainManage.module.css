@@ -1,5 +1,5 @@
 .blockchainmanage_wrap {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
   max-width: 881px;
   height: 100%;
@@ -17,6 +17,69 @@
 .blockchainmanage_text {
   font-size: 30px;
   font-weight: 600;
+}
+
+.divider {
+  /* border: 1px solid #ddd; */
+  margin-top: 10px;
+}
+
+.payment_blockchain {
+  padding-left: 30px;
+  margin-top: 20px;
+}
+
+.payment_blockchain h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.blockchain_list {
+  width: 20%;
+  border-collapse: collapse;
+}
+
+
+.blockchain_list th,
+.blockchain_list td {
+  /* border: 1px solid #ddd; */
+  /* padding: 10px; */
+}
+
+.blockchain_list tr {
+  transition: background-color 0.3s;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blockchain_list tr:hover {
+  background-color: #e0e0e0;
+}
+
+.unhighlighted_row {
+  background-color: #ADD8E6;
+}
+
+.highlighted_row {
+  background-color: #ffcccc;
+}
+
+.edit_button {
+  margin-top: 20px;
+  margin-left: 80px;
+  padding: 10px 20px;
+  background-color: #f7a701;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.edit_button:hover {
+  background-color: #ee7f66;
 }
 
 .blockchainmanage_component_wrap {

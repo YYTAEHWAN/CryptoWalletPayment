@@ -36,9 +36,9 @@ const PayResult = ({navigation}) => {
                 <ScreenTitle title="결제 완료" />
             </View>
             <ScrollView style={styles.content}>
-                <ContentsBox title="제품명" contents={payinfo.product}/>
+                <ContentsBox title="제품명" contents={payinfo.product_name}/>
                 <ContentsBox title="결제된 금액(원)" contents={payinfo.price}/>
-                <ContentsBox title="사용한 지갑" contents={payinfo.wallet}/>
+                <ContentsBox title="사용한 지갑" contents={payinfo.selectedWallet}/>
                 <ContentsBox title="사용한 코인" contents={payinfo.ticker}/>
                 <ContentsBox title="환산된 코인 금액" contents={payinfo.exchangedvalue}/>
                 <ContentsBox title="보낸 지갑 주소" contents={payinfo.walletaddress}/>

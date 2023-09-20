@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Modal, StyleSheet, Text, TextInput,Image, KeyboardAvoidingView,Alert } from 'react-native';
+import { View, Modal, StyleSheet, Text, TextInput,Image, KeyboardAvoidingView,Alert,ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import {Picker} from '@react-native-picker/picker';
 
@@ -15,7 +15,7 @@ const WalletInputModal = (props) => {
     const [walletAddress, setWalletAddress] = useState("");
     const [ticker, setTicker] = useState("");
     const [canPay, setCanPay] = useState(false);
-
+    const [isLoading, setisLoading] = useState(false);
     useEffect(()=>{
         console.log('from WalletInpuModal - 지갑선택시 결제정보',JSON.stringify(payinfo,null,2));
     },[payinfo])
@@ -33,8 +33,70 @@ const WalletInputModal = (props) => {
         exchangedProduct_Value : 0,
         myTickerValue:0,
     })
-
+    async function dollarToWon(dollarBalance){
+        data = await axios
+          .get(
+            `https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD`
+          )
+          .catch((error) => {
+            if (error.response) {
+              // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+              // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+              // Node.js의 http.ClientRequest 인스턴스입니다.
+              console.log(error.request);
+            } else {
+              // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+                console.log('Error', error.message);
+                }
+                console.log(error.config);
+            });
+        return dollarBalance*data.data[0].basePrice;
+    }
+    async function getTokenBalance(tokenName){
+        var tokenIds = 'ethereum,tether,usd-coin,uniswap,weth';
+        let tokenBalance;
+        data = await axios
+        .get(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=usd`
+        )
+        .catch((error) => {
+            if (error.response) {
+            // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            } else if (error.request) {
+            // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+            // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+            // Node.js의 http.ClientRequest 인스턴스입니다.
+            console.log(error.request);
+            } else {
+            // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+            console.log('Error', error.message);
+            }
+            console.log(error.config);
+        });
+        if (tokenName === 'ETH') {
+        tokenBalance = data.data.ethereum.usd;
+        } else if (tokenName === 'USDT') {
+        tokenBalance = data.data.tether.usd;
+        } else if (tokenName === 'USDC') {
+        tokenBalance = data.data['usd-coin'].usd;
+        } else if (tokenName === 'UNI') {
+        tokenBalance = data.data.uniswap.usd;
+        } else if (tokenName === 'WETH') {
+        tokenBalance = data.data.weth.usd;
+        }
+        console.log(tokenBalance)
+        return tokenBalance;
+    }
     const Balance = async ()=>{
+        setisLoading(true)
         if(ticker === ""){
             Alert.alert("티커 선택","조회할 티커를 선택해주세요",[
                 {
@@ -45,38 +107,46 @@ const WalletInputModal = (props) => {
             ] )
         }
         try{
-            const currentTickerValue = await axios.get(`https://api.upbit.com/v1/ticker?markets=KRW-${ticker}`,{
-                headers:{
-                    Accept: 'application/json',
-                },
-            })
+            console.log("잔액 조회 시작")
+            // https://nanng.onrender.com/getTokenMarketBalance?tokenName=ETH
+            // https://api.upbit.com/v1/ticker?markets=USDT-${ticker}
+            // const currentTickerValue = await axios.get(`https://nanng.onrender.com/getTokenMarketBalance?tokenName=${ticker}`,{
+            //     headers:{
+            //         Accept: 'application/json',
+            //     },
+            // })
+            // console.log("원 환산 ", JSON.stringify(currentTickerValue))
+            const dollarbalance = await getTokenBalance(ticker)
+            const currentTickerValue = await dollarToWon(dollarbalance)
+            console.log(currentTickerValue)
             setValue((e)=>({
                 ...e,
-                currentTickerValue: currentTickerValue.data[0].trade_price,
-                exchangedProduct_Value : (payinfo.price / currentTickerValue.data[0].trade_price).toFixed(5),
+                currentTickerValue: currentTickerValue,
+                exchangedProduct_Value : (payinfo.price / currentTickerValue).toFixed(5),
             }))
-        }catch(error){
-            Error(error)
-        }
-        try{
-            const myTickerValue = await axios({
-                method:"POST",
-                url:"https://nanng.onrender.com/getBalance",
-                data:{
-                    "walletAddress": "0x437782D686Bcf5e1D4bF1640E4c363Ab70024FBC",
-                    "tokenName": ticker,
+            try{
+                const myTickerValue = await axios({
+                    method:"POST",
+                    url:"https://nanng.onrender.com/getBalance",
+                    data:{
+                        "walletAddress": walletAddress,
+                        "tokenName": ticker,
+                    }
+                })
+                setValue((e)=>({
+                    ...e,
+                    myTickerValue : (myTickerValue.data.balance),
+                }))
+                if((Value.exchangedProduct_Value - Value.myTickerValue) >=0){
+                    setCanPay(true)
                 }
-            })
-            setValue((e)=>({
-                ...e,
-                myTickerValue : (myTickerValue.data.balance),
-            }))
-            if((Value.exchangedProduct_Value - Value.myTickerValue) >=0){
-                setCanPay(true)
+            }catch(error){
+                Error(error)
             }
         }catch(error){
             Error(error)
         }
+        setisLoading(false)
     }
     //지갑주소가져오는 함수
     const takeAddress = async ()=> {
@@ -160,7 +230,10 @@ const WalletInputModal = (props) => {
                                 source={props.selecteditem.imageURL} />
                         </View>
                             <Text style={styles.text}>현 코인 가격 : {Value.currentTickerValue} 원</Text>
-                        <Text style={styles.text}>환산된 가격 : <Text style={{color:'black',fontWeight: 'bold',}}>{Value.exchangedProduct_Value}</Text></Text>
+                        <Text style={styles.text}>환산된 가격 : 
+                            <Text style={{color:'black',fontWeight: 'bold',}}>{Value.exchangedProduct_Value}</Text>
+                            <Text>  {ticker}</Text>
+                            </Text>
                         <Text style={styles.text}>지갑 내 코인 가치: <Text style={{color:'black',fontWeight: 'bold',}}>{Value.myTickerValue}</Text></Text>
                         <TextInput
                             style={styles.inputaddress}
@@ -186,7 +259,8 @@ const WalletInputModal = (props) => {
                             </Picker>
                         </View>
                         <FunctionButton onPress={takeAddress}>지갑주소 가져오기</FunctionButton>
-                        <FunctionButton onPress={Balance}>가격 조회</FunctionButton>
+                        {isLoading ?  
+                        <FunctionButton onPress={Balance}>가격 조회 <ActivityIndicator/></FunctionButton> :<FunctionButton onPress={Balance}>가격 조회</FunctionButton>}
                         <FunctionButton onPress={Closemodal}>닫기</FunctionButton>
                         <FunctionButton onPress={walletSelect}>이 지갑 선택</FunctionButton>
                     </View>

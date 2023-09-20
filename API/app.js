@@ -53,6 +53,13 @@ app.get('/tokenBalanceTrans', async (req, res) => {
 
   res.send({ tokenBalance: tokenBalance });
 });
+
+app.get('/getTokenMarketBalance', async(req,res)=>{
+  let tokenBalance = await getTokenBalance(req.query.tokenName);
+  let wonBalance = await dollarToWon(tokenBalance);
+  res.send({tokenWonBlance: wonBalance});
+});
+
 app.post('/checkTransaction', async (req, res) => {
   const data = await getTransaction(
     req.body.transactionHash,
@@ -288,4 +295,68 @@ async function dollarToToken(dollarBalance, tokenName) {
   }
   transBalance = dollarBalance / tokenBalance;
   return transBalance;
+}
+
+async function dollarToWon(dollarBalance){
+  data = await axios
+    .get(
+      `https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD`
+    )
+    .catch((error) => {
+      if (error.response) {
+        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+        // Node.js의 http.ClientRequest 인스턴스입니다.
+        console.log(error.request);
+      } else {
+        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
+ return dollarBalance*data.data[0].basePrice;
+
+}
+
+async function getTokenBalance(tokenName){
+  var tokenIds = 'ethereum,tether,usd-coin,uniswap,weth';
+  var tokenBalance;
+  data = await axios
+    .get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=usd`
+    )
+    .catch((error) => {
+      if (error.response) {
+        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+        // Node.js의 http.ClientRequest 인스턴스입니다.
+        console.log(error.request);
+      } else {
+        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
+  if (tokenName === 'ETH') {
+    tokenBalance = data.data.ethereum.usd;
+  } else if (tokenName === 'USDT') {
+    tokenBalance = data.data.tether.usd;
+  } else if (tokenName === 'USDC') {
+    tokenBalance = data.data['usd-coin'].usd;
+  } else if (tokenName === 'UNI') {
+    tokenBalance = data.data.uniswap.usd;
+  } else if (tokenName === 'WETH') {
+    tokenBalance = data.data.weth.usd;
+  }
+  return tokenBalance;
 }

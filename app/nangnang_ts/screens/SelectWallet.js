@@ -147,7 +147,7 @@ const SelectWallet = ({navigation}) => {
             };
             
             const txResponse = await signer.sendTransaction(transaction);
-            const receipt = await txResponse.wait();
+            // const receipt = await txResponse.wait();
             const transactionHash = txResponse.hash;
             console.log('트랜잭션 해쉬값 ' + transactionHash);
             const namespaces = provider?.namespaces
@@ -157,6 +157,7 @@ const SelectWallet = ({navigation}) => {
                 return match ? match[1] : null;
             });
             const networkNum = networknum[0]
+            console.log("네트워크 번호", networkNum)
             try{
                 console.log("결제상태 확인 시작")
                 let payresult = 0;
@@ -276,20 +277,10 @@ const SelectWallet = ({navigation}) => {
         setModalIsVisible(true)
         setWalletAddress(wallet_address)
     }   
-
-    const syncChain = async (newNetwork, oldNetwork) => {
-        console.log("syncChain start");
-        await provider.on("network", (newNetwork, oldNetwork) => {
-            // When a Provider makes its initial connection, it emits a "network"
-            // event with a null oldNetwork along with the newNetwork. So, if the
-            // oldNetwork exists, it represents a changing network
-            if (oldNetwork) {
-                console.log("Network changed, reloading page");
-            }
-        });
-        console.log("syncChain end");
+    const payCancelHandeler = ()=>{
+        setLoading(false)
     }
-
+    
     return (
         <View style={styles.MyWalletsView}>
             <View style={styles.header}>
@@ -323,12 +314,20 @@ const SelectWallet = ({navigation}) => {
                         <WalletButton onPress={()=>killSession()} style={{marginTop:16}}>
                             <Text >{'지갑 연결 세션 종료'}</Text>
                         </WalletButton>
+                        <WalletButton onPress={()=>killSession()} style={{marginTop:16}}>
+                            <Text >{'보낼 지갑주소 변경'}</Text>
+                        </WalletButton>
                         {isloading ? 
                             <View>
-                            <Text style={{color:Colors.indigo400, fontWeight:'bold'}}>
+                            <Text style={{marginTop:16, alignSelf:"center",color:Colors.indigo400, fontWeight:'bold'}}>
                                 결제중 입니다
                             </Text>
-                            <ActivityIndicator style={{marginTop:16,}}/> 
+                            <ActivityIndicator style={{marginTop:16,}}/>
+                            <WalletButton 
+                                onPress={()=> payCancelHandeler()} 
+                                style={{backgroundColor: Colors.orange500}}>
+                                <Text >{"결제취소"}</Text>
+                            </WalletButton> 
                             </View> : <></>}
                     </View>
                     : <SubmitButton 

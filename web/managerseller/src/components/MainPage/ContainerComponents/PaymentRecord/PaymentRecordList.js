@@ -18,16 +18,16 @@ const PaymentRecordList = ({ records }) => {
             <th className={classes.table_th}>payment_status</th>
           </tr>
         </thead>
-        {records.map((record) => (
+        {records.map((record, index) => (
           <>
-            <PaymentRecord
-              key={``}
+            <PaymentRecord key={index} className={classes.table_row}
               networkInfoData={record.networkInfoData}
               participantsData={record.participantsData}
               productsAllData={record.productsAllData}
               statusInfoData={record.statusInfoData}
             />
           </>
+
         ))}
       </table>
     </ul>

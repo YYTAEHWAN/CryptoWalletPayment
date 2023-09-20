@@ -46,3 +46,24 @@
   background-color: white;
   color: #f7a701;
 } */
+
+/* ==== wallet =================================================== */
+.wallet {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc; /* 변경된 border 색상 */
+  border-left: 1px solid #ccc; /* 변경된 border 색상 */
+  border-right: 1px solid #ccc; /* 변경된 border 색상 */
+  border-top: 1px solid #ccc; /* 변경된 border 색상 */
+  padding: 10px; /* 여백 추가 */
+}
+
+
+.wallet_name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.wallet_value {
+  font-weight: normal;
+}

@@ -1,104 +1,68 @@
 import React from "react";
-// import { Link } from 'react-router-dom';
 import classes from "./SignIn.module.css";
-import { useState, useEffect, useContext, useCallback } from "react";
-import { Link } from "react-router-dom";
-// import { LoginReturnData } from "../../databasefunction/LoginReturnDataFunc";
-import { AuthContext } from "../../contexts/AuthContext";
-import axios from "axios";
+import { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 
-const SignIn = () => {
-  const [state, dispatch] = useContext(AuthContext);
-  // const { user, updateUser } = useContext('');
-  const [signInId, setSignInId] = useState("");
-  const [signInPw, setSignInPw] = useState("");
+const SignIn = (props) => {
   const [signInInvalid, setSignInInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const signIn = useContext(UserContext);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (isFormSubmitted && signIn.id !== "") {
+      const apiUrl = `https://asia-northeast3-nangnang-b59c0.cloudfunctions.net/api/brofucntions/sangyunbro/GetSellerData/getsellerdata?seller_id=${signIn.id}`;
+      async function fetchData() {
+        try {
+          const response = await fetch(apiUrl);
+          if (!response.ok) {
+            alert(`아이디가 없습니다.`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+          console.log(`data`, data.data);
+          if (data.data.password === signIn.password) {
+            signIn.isLogin = true;
+            signIn.consumer_or_not = data.data.consumer_or_not;
+            signIn.email = data.data.email;
+            signIn.phone_number = data.data.phone_number;
+            signIn.real_name = data.data.real_name;
+            signIn.resident_registration_number = data.data.resident_registration_number;
+            alert('로그인 되었습니다.');
+            navigate('/main');
+          } else {
+            alert('비밀번호가 틀렸습니다.');
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+
+      fetchData();
+    }
+  }, [isFormSubmitted]);
+
 
   const handleUsernameChange = (event) => {
-    setSignInId(event.target.value);
+    signIn.id = event.target.value;
+    setIsFormSubmitted(false);
   };
 
   const handlePasswordChange = (event) => {
-    setSignInPw(event.target.value);
+    signIn.password = event.target.value;
+    setIsFormSubmitted(false);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault(); // 폼 제출 기본 동작 방지
-    let id = signInId;
-    let pw = signInPw;
 
-    setLoading(true);
-    try {
-      const res = await axios({
-        method: "POST",
-        url: "https://asia-northeast3-nangnang-b59c0.cloudfunctions.net/api/login/loginreturndata",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          input_user_id: "gen1001",
-          input_user_pwd: "gen1001",
-        },
-      });
-      console.log(JSON.stringify(res, null, 2));
-      if (Object.keys(res).length === 0) {
-        // 빈 객체인 경우에 대한 처리
-        throw new Error("Empty response data.");
-      }
-      dispatch({
-        type: "USER_LOGIN",
-        payload: true,
-        id: id,
-        // real_name: res.data.real_name,
-      });
-    } catch (error) {
-      console.log(error);
-      alert("Login failed");
-      setSignInInvalid(true);
-    } finally {
-      setLoading(false);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault(); // 기본 폼 제출 동작을 막음
+    setIsFormSubmitted(true); // 폼이 제출되었음을 표시
   };
-
-  // const loginHandler = useCallback(async (event) => {
-  //   event.preventDefault(); // 폼 제출 기본 동작 방지
-  //   let id = signInId;
-  //   let pw = signInPw;
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch({
-  //       method: "POST",
-  //       url: "https://asia-northeast3-nangnang-b59c0.cloudfunctions.net/api/login/loginreturndata",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       data: {
-  //         input_user_id: "gen1001",
-  //         input_user_pwd: "gen1001",
-  //       },
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("Something went wrong!");
-  //     }
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert("Login failed");
-  //     setSignInInvalid(true);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    setSignInInvalid(false); // 컴포넌트가 마운트될 때 count 상태를 0으로 설정
-    console.log(state);
-  }, [state]);
 
   return (
     <div className={classes.login_component}>
+      {console.log(`signIn`, signIn)}
       <div className={classes.wrap}>
         <h1>Seller Manager</h1>
         <h1>SignIn</h1>
@@ -155,17 +119,6 @@ const SignIn = () => {
           <p>로그인 중입니다...</p>
         ) : (
           <div>
-            {/* {user !== null ? (
-              <ul>
-                {Object.entries(user).map(([key, value]) => (
-                  <li key={key}>
-                    <strong>{key}: </strong> {value}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>로그인 데이터가 없습니다.</p>
-            )} */}
           </div>
         )}
       </div>

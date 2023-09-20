@@ -61,7 +61,6 @@ const MyPaymentlist = ({navigation}) => {
                 <DataTable.Cell>{item.payment_receipt_idx}</DataTable.Cell>
                 <DataTable.Cell>{item.product_name}</DataTable.Cell>
                 <DataTable.Cell>{item.total_won_price}</DataTable.Cell>
-                <DataTable.Cell>{item.payment_end_time}</DataTable.Cell>
                 <DataTable.Cell onPress={()=>{paymentdetail(item.payment_receipt_idx)}}>
                     <Text style={{color:Colors.orange500, alignSelf:'center'}} > 상세보기</Text></DataTable.Cell>
             </DataTable.Row>
@@ -82,7 +81,6 @@ const MyPaymentlist = ({navigation}) => {
                         <DataTable.Title>결제번호</DataTable.Title>
                         <DataTable.Title>상품</DataTable.Title>
                         <DataTable.Title>가격</DataTable.Title>
-                        <DataTable.Title>결제시간</DataTable.Title>
                         <DataTable.Title></DataTable.Title>
                     </DataTable.Header>
                         <FlatList

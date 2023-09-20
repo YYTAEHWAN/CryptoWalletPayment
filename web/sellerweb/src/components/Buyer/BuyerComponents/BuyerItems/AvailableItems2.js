@@ -7,21 +7,21 @@ const DUMMY_COURSE = [
     author: "Zeroyoon",
     limitation: "무제한 수강",
     description: "C언어 입문자를 위한 강의",
-    price: 50000,
+    price: 20000,
   },
   {
     id: "m2",
     author: "Zeroyoon",
     limitation: "무제한 수강",
     description: "C언어 입문자를 위한 강의",
-    price: 50000,
+    price: 20000,
   },
   {
     id: "m3",
     author: "Zeroyoon",
     limitation: "무제한 수강",
     description: "C언어 입문자를 위한 강의",
-    price: 50000,
+    price: 20000,
   },
 ];
 

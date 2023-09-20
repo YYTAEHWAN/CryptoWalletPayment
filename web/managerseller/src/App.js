@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import MainHomePage from "./pages/MainLandingPage";
 import MainBlockchainManagePage from "./pages/MainBlockchainManagePage";
 import MainPaymentRecordsPage from "./pages/MainPaymentRecordsPage";
@@ -7,19 +8,28 @@ import MainEmptyPage from "./pages/MainEmptyPage";
 import SignInFormPage from "./pages/SignInFormPage";
 import SignUpFormPage from "./pages/SignUpFormPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AuthProvider from "./contexts/AuthContext";
-
+import UserContext from './contexts/UserContext';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
 export default function App() {
+
   return (
     <QueryClientProvider client={queryClient}>
-
       <div className="App">
-        <AuthProvider>
+        <UserContext.Provider value={{
+          isLogin: false,
+          consumer_or_not: undefined,
+          email: "",
+          id: "",
+          password: "",
+          phone_number: "",
+          real_name: "",
+          resident_registration_number: "",
+          wallet_address: "",
+        }}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<SignInFormPage />} />
@@ -35,7 +45,7 @@ export default function App() {
               <Route path="*" element={<MainEmptyPage />} />
             </Routes>
           </BrowserRouter>
-        </AuthProvider>
+        </UserContext.Provider>
       </div>
       <ReactQueryDevtools />
     </QueryClientProvider>

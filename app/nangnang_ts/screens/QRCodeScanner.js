@@ -27,7 +27,7 @@ function QRCodeScanner ({navigation, connector, connectWallet}){
       product_name: arrdata[1],
       price: parseInt(arrdata[2]),
       wallet: arrdata[4],
-      walletaddress: "0xBC1B146F5C0aa68f76F8E2835A6FAe166Db8f647",
+      walletaddress: "0x437782D686Bcf5e1D4bF1640E4c363Ab70024FBC",
       receiptid : arrdata[6],
       sellerid: arrdata[7],
       selectedWalletID:"",
